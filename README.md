@@ -1,10 +1,21 @@
 # hepr-isolation
 
-Design notes and a Windows proof of concept for running coding agents, and the programs Herdr mods start, in OS-enforced isolation under [Herdr](https://herdr.dev).
+**Let AI coding agents loose in your project without handing them your whole PC.**
 
-This is part of HEPR, an execution policy, approval and receipt layer for Herdr. It is an independent project: it isn't part of Herdr or endorsed by its developers, and nothing here is in Herdr today.
+When you run Claude Code, Codex or Gemini in a terminal, it runs as *you*. It can read your SSH keys, your browser profiles and every other repo on the machine, and send any of it anywhere. A prompt injection in a README or a dependency is all it takes.
 
-## Status
+hepr-isolation puts each agent in a Windows AppContainer, the sandbox Windows itself uses for Store apps. Inside its project the agent works normally. One folder over, Windows says **Access is denied**. That's enforced by the operating system, not by asking the agent to behave.
+
+- **No VM** and no drivers. Works on Windows 11 Home.
+- **No measurable slowdown:** 27 ms to start a process inside, 29 ms outside.
+- **Proven with a real agent:** Claude Code, logged in, read and worked on its project, and couldn't read a file sitting next to it.
+- **Network on or off,** per project.
+
+It's built for [Herdr](https://herdr.dev), the desktop app for terminals and coding agents, as part of HEPR, a layer that adds approvals and a tamper-evident record of what agents run. An independent project, not affiliated with Herdr.
+
+## Where it stands
+
+Today this is a **working proof of concept and a design**, not something you install. You can run the proof of concept yourself ([below](#running-the-proof-of-concept)) and watch every check pass or fail on your own machine.
 
 - **Stage 1 (Guard)** gives Herdr policy, approvals and hash-chained receipts. It's built on development branches of herdr-core and herdr-app, which aren't in this repo. Its validation report is in [`docs/HEPR_VALIDATION.md`](docs/HEPR_VALIDATION.md). It still needs an independent review by someone other than its developer.
 - **Stage 2 (Isolated)** runs each agent in a Windows AppContainer inside a job object. It's designed and its proof of concept passed; no product code exists yet, and building it waits for that independent review.
