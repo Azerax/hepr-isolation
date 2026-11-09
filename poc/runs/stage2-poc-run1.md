@@ -1,0 +1,42 @@
+| ID | Check | Expected | Observed | Result |
+| --- | --- | --- | --- | --- |
+| ctl | read the outside secret, NOT contained | OK | OK read 17 bytes | PASS |
+| P1 | cmd in ConPTY: input, output, resize, exit | 2 replies, exit 0 | 0 replies, exit 258 | FAIL |
+| P1 | Windows PowerShell in ConPTY | reply, exit 0 | 0 replies, exit 258 | FAIL |
+| P8 | post WM_USER+1 to the console's window | DENIED or no window |  | FAIL |
+| P8 | open conhost (pid 35620) for write/inject | DENIED |  | FAIL |
+| T1 | read a secret outside the workspace | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T1 | open the real ~/.ssh for listing (no read) | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T1 | open the user profile for listing | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T2 | write outside the workspace | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T2 | write the user's %TEMP% | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T2 | write C:\Users\Public | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T2 | write inside the workspace | OK | OK written | PASS |
+| T3 | make a junction in the workspace to outside | (allowed: it's the workspace) | OK exit Some(1): | PASS |
+| T3 | read the secret through that junction | DENIED | ERR The system cannot find the path specified. (os error 3) | FAIL |
+| T3 | write through that junction | DENIED | ERR The system cannot find the path specified. (os error 3) | FAIL |
+| T3 | read through a junction that was already there | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T4 | start 10 children with processes = 5 | at most 4 start (the probe is the 5th) | OK 4 of 10 started; then: Not enough quota is available to process this command. (os error 1816) | PASS |
+| T5 | start a child with CREATE_BREAKAWAY_FROM_JOB | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T11 | a child still running when the session ends | ended with the job | 0 probe processes left (was 1); session: [timed out] | PASS |
+| T7 | commit 64 MB with memory_mb = 256 | OK | OK 64 MB committed | PASS |
+| T7 | commit 512 MB with memory_mb = 256 | fails | ERR could not reserve 512 MB: memory allocation failed because the memory allocator returned an error | PASS |
+| ctl | connect 1.1.1.1:443, NOT contained | OK | OK connected to 1.1.1.1:443 | PASS |
+| T6 | network off: connect to 1.1.1.1:443 | ERR | DENIED An attempt was made to access a socket in a way forbidden by its access permissions. (os error 10013) | FAIL |
+| T6 | network off: connect to a local listener | ERR | ERR connection timed out | PASS |
+| T6 | network on: connect to 1.1.1.1:443 | OK | OK connected to 1.1.1.1:443 | PASS |
+| T6 | network on: connect to a local listener | ERR | ERR connection timed out | PASS |
+| P7 | connect to its own session pipe | OK | OK connected | PASS |
+| P7 | the server identifies the client by token | AppContainer SID matches | client pid 93164, AppContainer SID matches | PASS |
+| T8 | connect to a pipe with herdr's DACL and label | DENIED | DENIED Access is denied. (os error 5) | PASS |
+| T9 | read a variable the host has but didn't pass | ERR | ERR absent | PASS |
+| T9 | read PATH (passed) | OK | OK present | PASS |
+| T9 | enumerate Windows Credential Manager | nothing of the user's | DENIED Access is denied. (os error 5) | PASS |
+| T12 | open the host process (Medium) for write/inject | DENIED | DENIED Access is denied. (os error 5) (write/inject); query-limited: denied | PASS |
+| T13 | write .git/hooks/pre-commit | OK | OK written | PASS |
+| P3 | git init, commit, log, status in the workspace | works | OK exit Some(1): | FAIL |
+| P2 | gemini --version (copy of the install, tools granted, network off) | prints a version | OK exit Some(1): | FAIL |
+| P2 | the same under LPAC | (measuring: expected to break) | DENIED Access is denied. (os error 5) | PASS |
+| T14 | start-to-exit of a trivial probe, median of 15 | measured | contained 26.7 ms, uncontained 27.7 ms | PASS |
+| P5 | grant and revoke an inheritable ACE on 10000 files | measured | grant 3.59 s, revoke 3.31 s | PASS |
+| P5 | grant and revoke an inheritable ACE on 50000 files | measured | grant 18.75 s, revoke 16.80 s | PASS |

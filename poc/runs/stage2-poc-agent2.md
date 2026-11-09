@@ -1,0 +1,8 @@
+| ctl | claude --version, NOT contained | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | git init + commit in the workspace, inside | works | warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it / HEPR_GIT_DONE | PASS |
+| P2 | claude --version in the container (network off) | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | claude --help in the container | prints usage | exit 0 / Usage: claude [options] [command] [prompt] /  / Claude Code - starts an interactive session by default, use -p/--print for | PASS |
+| P2 | claude -p with no login and no network | fails cleanly, no hang | exit 1 after 3.7 s / Not logged in · Please run /login | PASS |
+| P2 | claude interactive in ConPTY, inside | the TUI draws | exit 258 / WelcometoClaudeCodev2.1.319 ..........................................................*█████▓▓░*███▓░░░░░░░░░███▓░░░░░░░░░░░░░░███▓░░░░░░░░░░░░░░░░░░░░*██▓░░▓░▓▓███▓▓░ *░░░░ ░░░░░░░░ ░░░░░░░░░░░░░░░░ █████████*██▄█████▄██* █████████* .......████..........................................UnabletoconnecttoAnthropicservicesFailedtoconnecttoapi.anthropic.com:ENOTFOUNDPleasecheckyourinternetconnectionandnetworksettings.Note:ClaudeCodemightnotbeavailableinyourcountry.Checksupportedcountriesathttps://anthropic.com/supported-countriesWelcome to Claude Code v2.1.319 ..................................... | PASS |
+| P2 | what the agent kept in its own folder | (recorded) | .claude, .claude.json, INetCache, INetCookies, INetHistory, Packages, Temp | PASS |
+| P2 | read a file beside the workspace | denied | Access is denied. | PASS |

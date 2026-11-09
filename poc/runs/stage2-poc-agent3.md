@@ -1,0 +1,9 @@
+| ctl | claude --version, NOT contained | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | git init + commit in the workspace, inside | works | warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it / HEPR_GIT_DONE | PASS |
+| P2 | claude --version in the container (network off) | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | claude --help in the container | prints usage | exit 0 / Usage: claude [options] [command] [prompt] /  / Claude Code - starts an interactive session by default, use -p/--print for | PASS |
+| P2 | claude -p with no login (network off) | fails cleanly, no hang | exit 1 after 3.4 s / Not logged in · Please run /login | PASS |
+| P2 | curl api.anthropic.com from inside (network off) | no connection | curl: (6) Could not resolve host: api.anthropic.com /  / HTTP 000 | PASS |
+| P2 | claude interactive in ConPTY, inside (network off) | draws, connection error | exit 1 / ...laudeCodemightnotbeavailableinyourcountry.Checksupportedcountriesathttps://anthropic.com/supported-countries Welcome to Claude Code v2.1.319 .......................................................... * █████▓▓░ * ███▓░ ░░ ░░░░░░ ███▓░ ░░░ ░░░░░░░░░░ ███▓░ ░░░░░░░░░░░░░░░░░░░ * ██▓░░ ▓ ░▓▓███▓▓░ * ░░░░ ░░░░░░░░ ░░░░░░░░░░░░░░░░ █████████* ██▄█████▄██* █████████ * .......█ █ █ █.......................................... Unable to connect to Anthropic services Failed to connect to api.anthropic.com: ENOTFOUND Please check your internet connection and network settings. Note: Claude Code might not be available in your country. Check supported countries at https://anthropic.com/supported-countries | PASS |
+| P2 | what the agent kept in its own folder | (recorded) | .claude, .claude.json, INetCache, INetCookies, INetHistory, Packages, Temp | PASS |
+| P2 | read a file beside the workspace | denied | Access is denied. | PASS |

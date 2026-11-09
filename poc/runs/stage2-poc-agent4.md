@@ -1,0 +1,9 @@
+| ctl | claude --version, NOT contained | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | git init + commit in the workspace, inside | works | warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it / HEPR_GIT_DONE | PASS |
+| P2 | claude --version in the container (network ON) | prints a version | 2.1.319 (Claude Code) | PASS |
+| P2 | claude --help in the container | prints usage | exit 0 / Usage: claude [options] [command] [prompt] /  / Claude Code - starts an interactive session by default, use -p/--print for | PASS |
+| P2 | claude -p with no login (network ON) | fails cleanly, no hang | exit 1 after 3.8 s / Not logged in · Please run /login | PASS |
+| P2 | curl api.anthropic.com from inside (network ON) | an HTTP status | HTTP 405 | PASS |
+| P2 | claude interactive in ConPTY, inside (network ON) | draws, no connection error | exit 258 / ................. Let's get started. Choose the text style that looks best with your terminal To change this later, run /theme Auto (match terminal) ❯ ✔ Dark mode Light mode Dark mode (colorblind-friendly) Light mode (colorblind-friendly) Dark mode (ANSI colors only) Light mode (ANSI colors only) ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ 1 function greet() { 2 - console.log("Hello, World!"); 2 + console.log("Hello, Claude!"); 3 } ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ Syntax theme: Monokai Extended (ctrl+t to disable) PressCtrl-Cagaintoexit | PASS |
+| P2 | what the agent kept in its own folder | (recorded) | .claude, .claude.json, INetCache, INetCookies, INetHistory, Microsoft, Packages, Temp | PASS |
+| P2 | read a file beside the workspace | denied | Access is denied. | PASS |
