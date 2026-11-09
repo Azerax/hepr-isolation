@@ -68,3 +68,7 @@ If a run is interrupted, delete `C:\hepr-poc-ws` and the scratch folder by hand.
 - If `~/.hepr-poc-token` exists, it also runs three short prompts logged in, using that token. Make the token with `claude setup-token`. These prompts use your plan's quota. Delete the file when you're done.
 
 **Logs:** the Windows username in the logs' file paths is replaced with `<user>`.
+
+## License
+
+[MIT](LICENSE).
