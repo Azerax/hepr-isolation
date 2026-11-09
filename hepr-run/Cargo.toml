@@ -1,0 +1,22 @@
+[package]
+name = "hepr-run"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+publish = false
+description = "Run a coding agent in a Windows AppContainer sandbox scoped to one project folder."
+
+[dependencies]
+windows-sys = { version = "=0.61.2", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+    "Win32_Security_Isolation",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Console",
+    "Win32_System_JobObjects",
+    "Win32_System_Threading",
+] }
+
+[profile.release]
+strip = true

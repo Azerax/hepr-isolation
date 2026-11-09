@@ -54,6 +54,7 @@
 - **D-043 This version of HEPR targets Windows only** (owner's decision, 2026-11-09). Validation, acceptance and support claims cover Windows. Unix code paths that Guard touches are left in place and still compile, but are not validated or claimed; Unix-only tests are kept, not deleted, and are not part of the acceptance run.
 - **D-044 The Stage 2 proof of concept ran before M0**, at the owner's request (2026-11-09). It is a standalone probe (`poc/`), in neither repo and with no product wiring, so it is not the production implementation PRD §10 gates. M2 and later still wait for M0.
 - **D-045 Workspaces under `C:\Users` use a one-time admin setup step** (owner, 2026-11-09; PoC F1). The step grants a Herdr capability SID, derived from a fixed capability name, *read attributes + traverse* on `C:\Users` alone, not inherited. Every Herdr container carries that capability. Without the step, Isolated refuses workspaces under `C:\Users`, says why, and suggests one outside the profile. Nothing runs elevated after the step.
+- **D-046 hepr-run, a standalone launcher, was built before M0** at the owner's request (2026-11-09). It runs an agent in the Stage 2 sandbox (AppContainer + job, per-project grants, the D-045 setup step) from any terminal, outside Herdr. It is opt-in per run and has none of the built-in mode's guarantees (no holder frame, no `hc` principal, no receipts), so it is not the Stage 2 product; M2 and later still wait for M0.
 
 ## Open questions for the owner
 

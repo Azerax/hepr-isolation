@@ -27,7 +27,7 @@ fn row(rows: &mut Vec<bool>, id: &str, check: &str, expect: &str, observed: &str
 
 /// Screen text out of a pseudo console transcript: escape sequences dropped,
 /// runs of blanks squeezed.
-fn screen(t: &str) -> String {
+pub fn screen(t: &str) -> String {
     let mut out = String::new();
     let mut chars = t.chars().peekable();
     while let Some(c) = chars.next() {

@@ -13,12 +13,20 @@ hepr-isolation puts each agent in a Windows AppContainer, the sandbox Windows it
 
 It's part of HEPR, a layer for Herdr that also adds approvals and a tamper-evident record of what agents run. An independent project, not affiliated with Herdr.
 
+## Try it: hepr-run
+
+```powershell
+C:\code\my-app> hepr-run claude
+hepr-run: claude sandboxed to C:\code\my-app (network on)
+```
+
+[`hepr-run`](hepr-run/) runs an agent in that sandbox from any Herdr pane or Windows terminal: type `hepr-run claude` instead of `claude`. Build it with `cargo build --release`; [its README](hepr-run/README.md) covers install, the one-time setup for projects under `C:\Users`, and exactly what it stops and what it doesn't.
+
 ## Where it stands
 
-Today this is a **working proof of concept and a design**, not something you install. You can run the proof of concept yourself ([below](#running-the-proof-of-concept)) and watch every check pass or fail on your own machine.
-
+- **hepr-run** works today. It's opt-in each time you run it, and it supports single-file agents like Claude Code; Node-based ones (Gemini CLI, Codex) aren't supported yet.
 - **Stage 1 (Guard)** gives Herdr policy, approvals and hash-chained receipts. It's built on development branches of herdr-core and herdr-app, which aren't in this repo. Its validation report is in [`docs/HEPR_VALIDATION.md`](docs/HEPR_VALIDATION.md). It still needs an independent review by someone other than its developer.
-- **Stage 2 (Isolated)** runs each agent in a Windows AppContainer inside a job object. It's designed and its proof of concept passed; no product code exists yet, and building it waits for that independent review.
+- **Stage 2 (Isolated)** builds the same sandbox into Herdr, so a workspace set to Isolated always sandboxes its agents, with Guard's approvals and receipts. It's designed and its proof of concept passed; building it into Herdr waits for that independent review.
 - **Mod isolation** is a design note only.
 
 Windows is the only target. Nothing here has been run on Linux or macOS.
@@ -27,6 +35,7 @@ Windows is the only target. Nothing here has been run on Linux or macOS.
 
 | Path | What it is |
 | --- | --- |
+| [`hepr-run/`](hepr-run/) | The launcher: run an agent sandboxed to one project folder |
 | [`docs/HEPR_STAGE2_DESIGN.md`](docs/HEPR_STAGE2_DESIGN.md) | The Stage 2 design: architecture, launch path, threat model, tests, milestones |
 | [`docs/HEPR_STAGE2_POC.md`](docs/HEPR_STAGE2_POC.md) | The proof-of-concept report: what held, and the three findings that changed the design |
 | [`docs/HEPR_MOD_ISOLATION.md`](docs/HEPR_MOD_ISOLATION.md) | Design note: permissions for Herdr mods, their programs through Guard and in the container |
@@ -77,6 +86,12 @@ If a run is interrupted, delete `C:\hepr-poc-ws` and the scratch folder by hand.
 - It copies `~/.local/bin/claude.exe` into the scratch folder, and deletes the copy at the end.
 - With `net`, it reaches Anthropic's API.
 - If `~/.hepr-poc-token` exists, it also runs three short prompts logged in, using that token. Make the token with `claude setup-token`. These prompts use your plan's quota. Delete the file when you're done.
+
+**`pty` mode** runs a program behind a pseudo console, as a Herdr pane does, typing each input once the expected text appears. It's how hepr-run's interactive tests ran. Set `HEPR_POC_JOB=herdr` to use the same job settings as a Herdr pane.
+
+```powershell
+.\target\release\hepr-poc.exe pty "" "my-app>" "type ..\secret.txt\r\n" "denied" "exit\r\n" "" -- hepr-run cmd
+```
 
 **Logs:** the Windows username in the logs' file paths is replaced with `<user>`.
 

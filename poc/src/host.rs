@@ -241,6 +241,7 @@ pub struct Opts {
     pub env: Vec<(String, String)>,
     pub cwd: PathBuf,
     pub timeout: Duration,
+    pub herdr_job: bool,
 }
 
 pub struct Output {
@@ -299,6 +300,11 @@ fn job(o: &Opts) -> io::Result<OwnedHandle> {
             flags |= JOB_OBJECT_LIMIT_JOB_MEMORY;
             l.JobMemoryLimit = mb << 20;
         }
+        // As herdr-core's pane job (platform/windows.rs): kill-on-close,
+        // breakaway allowed, no UI limits.
+        if o.herdr_job {
+            flags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
+        }
         l.BasicLimitInformation.LimitFlags = flags;
         check(
             SetInformationJobObject(
@@ -309,6 +315,9 @@ fn job(o: &Opts) -> io::Result<OwnedHandle> {
             ),
             "job limits",
         )?;
+        if o.herdr_job {
+            return Ok(job);
+        }
         let ui = JOBOBJECT_BASIC_UI_RESTRICTIONS {
             UIRestrictionsClass: JOB_OBJECT_UILIMIT_DESKTOP
                 | JOB_OBJECT_UILIMIT_DISPLAYSETTINGS
