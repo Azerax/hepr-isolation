@@ -1,8 +1,8 @@
 # hepr-isolation
 
-**Let AI coding agents loose in your project without handing them your whole PC.**
+**Let the agents in your [Herdr](https://herdr.dev) panes loose in your project without handing them your whole PC.**
 
-When you run Claude Code, Codex or Gemini in a terminal, it runs as *you*. It can read your SSH keys, your browser profiles and every other repo on the machine, and send any of it anywhere. A prompt injection in a README or a dependency is all it takes.
+When you run Claude Code, Codex or Gemini in a Herdr pane, it runs as *you*. It can read your SSH keys, your browser profiles and every other repo on the machine, and send any of it anywhere. A prompt injection in a README or a dependency is all it takes.
 
 hepr-isolation puts each agent in a Windows AppContainer, the sandbox Windows itself uses for Store apps. Inside its project the agent works normally. One folder over, Windows says **Access is denied**. That's enforced by the operating system, not by asking the agent to behave.
 
@@ -11,7 +11,7 @@ hepr-isolation puts each agent in a Windows AppContainer, the sandbox Windows it
 - **Proven with a real agent:** Claude Code, logged in, read and worked on its project, and couldn't read a file sitting next to it.
 - **Network on or off,** per project.
 
-It's built for [Herdr](https://herdr.dev), the desktop app for terminals and coding agents, as part of HEPR, a layer that adds approvals and a tamper-evident record of what agents run. An independent project, not affiliated with Herdr.
+It's part of HEPR, a layer for Herdr that also adds approvals and a tamper-evident record of what agents run. An independent project, not affiliated with Herdr.
 
 ## Where it stands
 
